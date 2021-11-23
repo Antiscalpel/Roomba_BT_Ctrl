@@ -7,6 +7,11 @@
 //Motor Drive
 # define MAX_SPEED 220 // 70% of top speed ==> 256
 # define MIN_SPEED 70 
+//define Ultrasonic
+#define echoPin 12 // attach pin D2 Arduino to pin Echo of HC-SR04
+#define trigPin 13 //attach pin D3 Arduino to pin Trig of HC-SR04
+#define srvout 4 //attach pin D4 Arduino to move servo
+
 
 int motorSpeed = 100;
 
@@ -38,6 +43,3 @@ bool getSensorData(byte * buffer, byte bufferLength);
 
 byte single_byte_packets[22] = { 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 21, 24, 34, 35, 36, 37, 38, 45, 52, 53, 58};
 bool is_in_array(byte val);
-
-
-

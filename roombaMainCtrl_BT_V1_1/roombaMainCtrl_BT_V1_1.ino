@@ -8,21 +8,31 @@
 
 #include "roombaDefines.h"
 #include <SoftwareSerial.h>
+#include <Servo.h>
 
+long duration; // variable for the duration of sound wave travel
+int distance; // variable for the distance measurement
+int angle = 90;
 // Roomba Create2 connection
 int rxPin=10;
 int txPin=11;
 SoftwareSerial Roomba(rxPin,txPin);
+Servo servo;
 
 // BT Module (HC-06)
-SoftwareSerial BT1(8, 9); // El pin 8 es Rx y el pin 9 es Tx
+SoftwareSerial BT1(1, 2); // El pin 8 es Rx y el pin 9 es Tx
 
 //---------------------------------------------
 void setup() 
 {
-  Roomba.begin(19200);
-  BT1.begin(19200);
-  Serial.begin(19200);
+  Roomba.begin(115200);
+  BT1.begin(115200);
+  //Servo+ultrasonic initialize:
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an OUTPUT
+  pinMode(echoPin, INPUT); // Sets the echoPin as an INPUT
+  servo.attach(srvout);
+  servo.write(angle);
+  Serial.begin(115200);
   
   pinMode(ddPin, OUTPUT);
   pinMode(ledPin, OUTPUT); //spare if needed for test purpose
@@ -45,11 +55,11 @@ void setup()
   cleanDigitLED ();
 
   playSound (1); // start sound
-  while (digitalRead(buttonPin))
-  {  
-    setDebrisLED(ON);
-    writeLEDs ('-', '-', '-', '-');
-  }
+//  while (digitalRead(buttonPin))
+//  {  
+//    setDebrisLED(ON);
+//    writeLEDs ('-', '-', '-', '-');
+//  }
   setDebrisLED(OFF);
   writeLEDs ('s', 't', 'o', 'p');
   
@@ -67,4 +77,3 @@ void loop()
    checkBTcmd();  // verify if a comand is received from BT remote control
    manualCmd ();
 }
-
